@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: false
+  user: vagrant
+  vars:
+    user: vagrant
+  tasks:
+    - name: install basic tools
+      become: true
+      apt: pkg={{ item }} update_cache=yes state=latest
+      with_items:
+        - git
+        - curl
+        - build-essential
+      tags: apt
+    - name: download tensorflow/models repository
+      git:
+        repo: "https://github.com/tensorflow/models.git"
+        dest: "/home/vagrant/TF-Object-Detection-Tutorial/models"
+        clone: no
+      tags: download

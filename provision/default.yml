@@ -1,0 +1,22 @@
+#
+# Ansible Playbook Path
+#
+ansible_playbook_path: ./playbook.yml
+
+#
+# Virtual Machine Settings
+#
+memory: 1024
+cpus: 2
+
+#
+# Network Settings
+#
+hostname: tf-obj-detect.dev
+ip: 192.168.33.118
+sync_folder: './'
+
+#
+# Shared Folder Settings
+#
+document_root: '/home/vagrant/TF-Object-Detection-Tutorial'
