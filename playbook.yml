@@ -23,7 +23,7 @@
     - name: download tensorflow/models repository
       git:
         repo: "https://github.com/tensorflow/models.git"
-        dest: "/home/vagrant/TF-Object-Detection-Tutorial/models"
+        dest: "{{ home }}/models"
       tags: download
 
     - name: create python alias
@@ -35,33 +35,33 @@
 
     - name: install required python modules
       pip:
-        requirements: "/home/vagrant/TF-Object-Detection-Tutorial/requirements.txt"
+        requirements: "{{ home }}/requirements.txt"
 
     - name: download cocodataset/cocoapi repository
       git:
         repo: "https://github.com/cocodataset/cocoapi.git"
-        dest: "/home/vagrant/TF-Object-Detection-Tutorial/cocoapi"
+        dest: "{{ home }}/cocoapi"
       tags: cocoapi
 
     - name: install cocoapi
       shell: "{{ item }}"
       args:
-        chdir: "/home/vagrant/TF-Object-Detection-Tutorial/cocoapi/PythonAPI"
+        chdir: "{{ home }}/cocoapi/PythonAPI"
       with_items:
         - "make"
-        - "cp -r /home/vagrant/TF-Object-Detection-Tutorial/cocoapi/PythonAPI/pycocotools /home/vagrant/TF-Object-Detection-Tutorial/models/research/"
+        - "cp -r {{ home }}/cocoapi/PythonAPI/pycocotools {{ home }}/models/research/"
       tags: cocoapi
 
     - name: porotobuf compilation
       shell: "protoc object_detection/protos/*.proto --python_out=."
       args:
-        chdir: "/home/vagrant/TF-Object-Detection-Tutorial/models/research/"
+        chdir: "{{ home }}/models/research/"
 
     - name: Add Libraries to PYTHONPATH
-      shell: "echo \"export PYTHONPATH=$PYTHONPATH:/home/vagrant/TF-Object-Detection-Tutorial/models/research/:/home/vagrant/TF-Object-Detection-Tutorial/models/research/slim\" >> ~/.bash_profile"
+      shell: "echo \"export PYTHONPATH=$PYTHONPATH:{{ home }}/models/research/:{{ home }}/models/research/slim\" >> ~/.bash_profile"
 
     - name: Run test
       shell: /bin/bash -lc "python object_detection/builders/model_builder_test.py"
       args:
-        chdir: "/home/vagrant/TF-Object-Detection-Tutorial/models/research/"
+        chdir: "{{ home }}/models/research/"
       tags: last
