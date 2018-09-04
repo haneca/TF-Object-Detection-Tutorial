@@ -1,0 +1,6 @@
+Cython
+contextlib2
+jupyter
+matplotlib
+Pillow
+tensorflow

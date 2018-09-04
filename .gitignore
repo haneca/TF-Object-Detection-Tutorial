@@ -1,1 +1,4 @@
 .vagrant
+models
+cocoapi
+playbook.retry
